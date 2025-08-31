@@ -60,7 +60,7 @@ userSchema.methods = {
             _id: this._id,
             email: this.email
         },
-            process.env.JWT_KEY,
+            process.env.JWT_SECRET,
             { expiresIn: '3h' }
         )
     },

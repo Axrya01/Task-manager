@@ -14,10 +14,12 @@ class AuthServices {
   ) {
     e.preventDefault();
     try {
+      console.log("Attempting login with:", payload);
       const response = await axios.post(
         `${window.location.origin}/api/auth/login`,
         payload
       );
+      console.log("Login response:", response.data);
       if (response) {
         const token = response.data.data.token;
         localStorage.setItem("token", token);
@@ -26,8 +28,9 @@ class AuthServices {
         navigate("/");
         toast.success("Login Successful!");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error("Login error:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Login failed!");
     }
   }
 
@@ -39,18 +42,22 @@ class AuthServices {
   ) => {
     e.preventDefault();
     try {
+      console.log("Attempting signup with:", userInfo);
       const response = await axios.post(
         `${window.location.origin}/api/auth/signup`,
         userInfo
       );
+      console.log("Signup response:", response.data);
       if (response) {
         const token = response.data.data.token;
         localStorage.setItem("token", token);
         dispatch(setIsLoggedIn(true));
         navigate("/");
+        toast.success("Signup successful!");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error("Signup error:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Signup failed!");
     }
   };
 
