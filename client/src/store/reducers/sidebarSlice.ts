@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-
+import { SidebarState } from "@/interfaces/task-interfaces";
 
 const initialState: SidebarState = {
   sidebarOpen: false,

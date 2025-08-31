@@ -1,7 +1,11 @@
-import { Project, ProjectList } from "@/interfaces/task-interfaces";
+import { Project } from "@/interfaces/task-interfaces";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface ProjectState {
+  projects: Project[];
+}
+
+const initialState: ProjectState = {
   projects: [],
 };
 

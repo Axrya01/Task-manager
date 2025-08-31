@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -17,7 +18,7 @@ export function DatePicker() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Input type="hidden" name="selectedDate" value={date} />
+        <Input type="hidden" name="selectedDate" value={date ? date.toISOString() : ''} />
         <Button
           variant={"outline"}
           className={cn(

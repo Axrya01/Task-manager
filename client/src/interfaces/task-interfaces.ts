@@ -71,8 +71,5 @@ export interface Project {
   end_date: string;
 }
 export interface ProjectList {
-  map(
-    arg0: (item: any, i: any) => import("react/jsx-runtime").JSX.Element
-  ): import("react").ReactNode;
   projects: Project[];
 }
