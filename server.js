@@ -44,7 +44,17 @@ app.get("/api/test", (req, res) => {
   res.json({ 
     message: "Backend is working!", 
     timestamp: new Date().toISOString(),
-    status: "success"
+    status: "success",
+    environment: process.env.NODE_ENV || "development"
+  });
+});
+
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({ 
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
   });
 });
 
@@ -65,19 +75,32 @@ app.get("/projects/:id", serveIndexFile);
 const connectDB = async () => {
   try {
     console.log("Connecting to MongoDB...");
+    if (!process.env.MONGO_URI) {
+      console.error("❌ MONGO_URI environment variable is not set");
+      return false;
+    }
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB connected successfully");
+    return true;
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error.message);
-    process.exit(1); // stop server if DB fails
+    return false;
   }
 };
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  server.listen(PORT, () => {
-    console.log(`🚀 Server is running at http://localhost:${PORT}`);
-    console.log(`🔌 Socket.io server is ready`);
-  });
+connectDB().then((connected) => {
+  if (connected) {
+    server.listen(PORT, () => {
+      console.log(`🚀 Server is running at http://localhost:${PORT}`);
+      console.log(`🔌 Socket.io server is ready`);
+    });
+  } else {
+    console.log("⚠️ Server starting without database connection");
+    server.listen(PORT, () => {
+      console.log(`🚀 Server is running at http://localhost:${PORT}`);
+      console.log(`🔌 Socket.io server is ready`);
+    });
+  }
 });
