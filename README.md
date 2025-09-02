@@ -218,7 +218,7 @@ This project is licensed under the ISC License.
 
 ## 👨‍💻 Author
 
-Original by Anuj Ghom, modified by [Your Name]
+Aarya More 
 
 ---
 
